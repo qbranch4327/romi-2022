@@ -20,14 +20,20 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final RomiDrivetrain m_romiDrivetrain = new RomiDrivetrain();
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  private final SpinCommand m_autoCommand = new SpinCommand(m_romiDrivetrain);
+
+  private final DriveCommand driveCommand = new DriveCommand(m_romiDrivetrain);
+  private final SpinCommand spinCommand = new SpinCommand(m_romiDrivetrain);
   private final XboxController controller = new XboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    m_chooser.setDefaultOption("Spin", spinCommand);
+    m_chooser.addOption("Drive", driveCommand);
+    SmartDashboard.putData(m_chooser);
   }
 
   /**
@@ -48,6 +54,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return m_chooser.getSelected();
   }
 }
+
+//A chooser for autnomous commands
+
+//A command that makes the robot move forward 
+
+//Add commands to the autonomus command chooser
